@@ -9,9 +9,12 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "AppHelper.h"
+#import <CoreLocation/CoreLocation.h>
+#import <ParseUI/ParseUI.h>
 
-@interface AppDelegate ()
-
+@interface AppDelegate ()<CLLocationManagerDelegate>
+// User Location
+@property CLLocationManager* locationManager;
 @end
 
 @implementation AppDelegate
@@ -23,12 +26,17 @@
     // Initialize Parse.
     [Parse setApplicationId:@"0R6LwrHMNcPYkNbXZ7Opm6W34am82n0x2r49Xhg0"
                   clientKey:@"vLSh8NnLzqIvrF8FFIs3KczyIBF8PX6mJo7NzUeF"];
+    [PFImageView class];
+    
     [AppHelper logInColor:@"Next Big Thing is here"];
     
     // Appearance Tint
     [[UITabBar appearance] setTintColor:[UIColor redColor]];
     [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    // Get Location
+    
     
     return YES;
 }

@@ -8,6 +8,7 @@
 
 #import "TabBarViewController.h"
 #import <Parse/Parse.h>
+#import "AppHelper.h"
 
 @interface TabBarViewController ()
 
@@ -17,17 +18,40 @@
 
 - (void) viewWillAppear:(BOOL)animated{
     
+    // Auto direct to Capture Page
+    self.selectedIndex = 0;
+    
+    PFUser* cUser = [PFUser currentUser];
     // No User Cached
-    if ([PFUser currentUser] == nil) {
+    if (cUser == nil) {
         [self performSegueWithIdentifier:@"login" sender:self];
     }
-    // Auto direct to Capture Page
-    self.selectedIndex = 1;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+   
+    // Get User Location
+    [AppHelper logInGreenColor:@"checking location"];
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {
+        
+        // User Denied locaiton
+        if (geoPoint == nil)
+        {
+            [AppHelper logError:@"no location found"];
+            [AppHelper storeLocation:nil];
+        }
+        else
+        {
+            // Test
+            NSString* disStr = [NSString stringWithFormat:@"Parse: got location:\t Lat: %f Lon: %f\nstoring..", geoPoint.latitude, geoPoint.longitude];
+            [AppHelper logInColor:disStr];
+            // Save
+            [AppHelper storeLocation:geoPoint];
+            [AppHelper logInGreenColor:@"stored location!"];
+        }
+    }];
 }
 
 @end

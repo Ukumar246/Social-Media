@@ -15,6 +15,7 @@
 #define commentOriginalY 50
 #define commentOffsetY 190
 
+BOOL rotateImage = YES;
 @interface CaptureViewController ()<CACameraSessionDelegate, UITextFieldDelegate>
 
 @property (nonatomic,strong) CameraSessionView* cameraView;
@@ -49,10 +50,26 @@
     blackTransparent.frame = self.view.frame;
     blackTransparent.backgroundColor = [UIColor blackColor];
     blackTransparent.alpha = 0.8f;
-    
+
     // Launch Camera
     [self launchCamera:nil];
 
+}
+-(void ) viewWillAppear:(BOOL)animated{
+    
+    if (![self.view.subviews containsObject:_cameraView]){
+        [AppHelper logInColor:@"capture view will appear.. lauching cam"];
+        [self launchCamera:nil];
+    }
+}
+
+-(void) viewDidDisappear:(BOOL)animated{
+    
+    // Memory Safe
+    if ([self.view.subviews containsObject:_cameraView]) {
+        [AppHelper logInColor:@"capture view disappeared.. removing cameara"];
+        [_cameraView removeFromSuperview];
+    }
 }
 
 - (BOOL) prefersStatusBarHidden{
@@ -135,8 +152,16 @@
         return;
     }
     
-    // UPLOAD
+    // Test
+    PFGeoPoint* storedUserLoc = [AppHelper storedUserLocation];
+    if (storedUserLoc == nil)     // No Location was stored
+    {
+        [AppHelper logError:@"error: no location found aboring"];
+        [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"No Location found" withBlur:YES allowTap:YES];
+        return;
+    }
     
+    // UPLOAD
     // Alert User
     [FVCustomAlertView showDefaultLoadingAlertOnView:self.view withTitle:@"Loading..." withBlur:YES allowTap:YES];
     
@@ -147,11 +172,11 @@
     }
     // Save Comment
     post[@"comment"] = self.pictureView.comment.text;
+    post[@"location"] = storedUserLoc;
     
     // Save Picure
-    NSData* data = UIImagePNGRepresentation(uploadImage);
+    NSData* data = UIImageJPEGRepresentation(uploadImage, 0.85);
     PFFile *imageFile = [PFFile fileWithName:@"post.jpg" data:data];
-    
     
     // Save the image to Parse
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -219,6 +244,7 @@
 
 
 #pragma mark - Helpers
+
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];

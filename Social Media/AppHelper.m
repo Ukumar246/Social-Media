@@ -8,26 +8,24 @@
 
 #import "AppHelper.h"
 
+static PFGeoPoint* userLocation = nil;
+
 @implementation AppHelper
 
-@synthesize someProperty;
-
-#pragma mark Singleton Methods
-
-+ (id)sharedManager {
-    static AppHelper *sharedMyManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedMyManager = [[self alloc] init];
-    });
-    return sharedMyManager;
-}
-
-- (id)init {
-    if (self = [super init]) {
-        someProperty = @"Default Property Value";
++(void)storeLocation:(PFGeoPoint*) passedLocation {
+    
+    if (passedLocation == nil) {
+        userLocation = nil;
+        return;
     }
-    return self;
+    
+    userLocation = [[PFGeoPoint alloc] init];
+    userLocation = [PFGeoPoint geoPointWithLatitude:passedLocation.latitude longitude:passedLocation.longitude];
+    
+    return;
+}
++ (PFGeoPoint*) storedUserLocation{
+    return userLocation;
 }
 
 + (UIColor*) systemColor{

@@ -10,17 +10,21 @@
 #import "FVCustomAlertView.h"
 #import "AppHelper.h"
 #import <Parse/Parse.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
 
 @property (nonatomic)       BOOL               userFound;
+
 @end
 
 @implementation LoginViewController{
     UIColor* customRedColor;
+    
+    PFGeoPoint* userLocation;
 }
 
 - (void) setUserFound:(BOOL)userFound{
@@ -90,6 +94,7 @@
     [tf.layer addSublayer:bottomBorder];
 }
 
+#pragma mark - Action Methods
 - (BOOL) textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
 
@@ -108,10 +113,51 @@
 }
 
 - (IBAction)actionButton:(UIButton *)sender {
-    if (self.userFound)
-        [self loginUser];
-    else
-        [self signupUser];
+    
+    if (_username.text == nil || _password.text == nil || [_username.text isEqualToString:@""] || [_password.text isEqualToString:@""]) {
+        
+        [AppHelper logError:@"empty tfs"];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"Empty Fields" withBlur:YES allowTap:YES];
+        
+        return;
+    }
+    
+    // Hide Loading Alert
+    [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+    // Launch Alert
+    [FVCustomAlertView showDefaultLoadingAlertOnView:self.view withTitle:@"Checking Location..." withBlur:YES allowTap:YES];
+    
+    // Get Location
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {
+        
+        // Hide Loading Alert
+        [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+        
+        // User Denied locaiton
+        if (geoPoint == nil)
+        {
+            [AppHelper logError:@"no location found"];
+            [AppHelper storeLocation:nil];
+            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"Location required to continue" withBlur:YES allowTap:YES];
+        }
+        else
+        {
+            // Test
+            NSString* disStr = [NSString stringWithFormat:@"Parse: got location:\t Lat: %f Lon: %f\nstoring..", geoPoint.latitude, geoPoint.longitude];
+            [AppHelper logInColor:disStr];
+            // Save
+            [AppHelper storeLocation:geoPoint];
+            [AppHelper logInGreenColor:@"stored location!\nAction..."];
+            
+            // Action
+            if (self.userFound)
+                [self loginUser];
+            else
+                [self signupUser];
+
+        }
+    }];
+    
 }
 
 #pragma mark - Parse Calls
@@ -157,8 +203,9 @@
             
         } else {
             NSString *errorString = [error userInfo][@"error"];   // Show the errorString somewhere and let the user try again.
+            errorString = [NSString stringWithFormat:@"Error: %@", errorString];
             // Show alert
-            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:[NSString stringWithFormat:@"Error: %@", errorString] withBlur:YES allowTap:YES];
+            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:[errorString uppercaseString] withBlur:YES allowTap:YES];
         }
     }];
 }

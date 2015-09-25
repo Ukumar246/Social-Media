@@ -18,12 +18,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface AppHelper : NSObject
 
-@property (nonatomic, retain) NSString *someProperty;
++(void)storeLocation:(PFGeoPoint*) passedLocation;
 
-+ (id)sharedManager;
++ (PFGeoPoint*) storedUserLocation;
+
 
 // System Color
 + (UIColor*) systemColor;

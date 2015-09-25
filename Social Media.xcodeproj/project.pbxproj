@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37269CCE1BB5E37C004B930A /* ContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		37B910031BB5027400E6B3AB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B910021BB5027400E6B3AB /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		37C95CE91BB4AE3000DC6B61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CE81BB4AE3000DC6B61 /* main.m */; };
 		37C95CEC1BB4AE3000DC6B61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CEB1BB4AE3000DC6B61 /* AppDelegate.m */; };
@@ -158,6 +159,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTableViewCell.h; sourceTree = "<group>"; };
+		37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTableViewCell.m; sourceTree = "<group>"; };
 		37B910011BB5027400E6B3AB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		37B910021BB5027400E6B3AB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		37C95CE41BB4AE3000DC6B61 /* Social Media.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Media.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -434,6 +437,8 @@
 		37C95D041BB4CA0900DC6B61 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */,
+				37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */,
 				37B910011BB5027400E6B3AB /* LoginViewController.h */,
 				37B910021BB5027400E6B3AB /* LoginViewController.m */,
 				37C95D581BB4DCE300DC6B61 /* PictureView.h */,
@@ -933,6 +938,7 @@
 				37E1629E1BB5B16A00D56F16 /* MDCalendarDateHeader.m in Sources */,
 				37E162C21BB5B16A00D56F16 /* MDSuggestTableView.m in Sources */,
 				37C95CEF1BB4AE3000DC6B61 /* CaptureViewController.m in Sources */,
+				37269CCE1BB5E37C004B930A /* ContentTableViewCell.m in Sources */,
 				37E162B01BB5B16A00D56F16 /* MDRippleLayer.m in Sources */,
 				37C95D501BB4D19800DC6B61 /* LaunchCameraButton.m in Sources */,
 				37C95D2D1BB4D03900DC6B61 /* AppHelper.m in Sources */,
