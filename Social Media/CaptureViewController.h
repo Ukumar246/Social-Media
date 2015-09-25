@@ -1,5 +1,5 @@
 //
-//  SecondViewController.h
+//  FirstViewController.h
 //  Social Media
 //
 //  Created by Utkarsh Kumar on 9/24/15.
@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomizableCamera/Camera View/CameraSessionView.h"
 
-@interface SecondViewController : UIViewController
+@interface CaptureViewController : UIViewController
 
 
 @end

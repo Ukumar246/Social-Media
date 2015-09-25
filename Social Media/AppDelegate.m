@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import "AppHelper.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"0R6LwrHMNcPYkNbXZ7Opm6W34am82n0x2r49Xhg0"
+                  clientKey:@"vLSh8NnLzqIvrF8FFIs3KczyIBF8PX6mJo7NzUeF"];
+    [AppHelper logInColor:@"Next Big Thing is here"];
+    
+    // Appearance Tint
+    [[UITabBar appearance] setTintColor:[UIColor redColor]];
+    [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    
     return YES;
 }
 
