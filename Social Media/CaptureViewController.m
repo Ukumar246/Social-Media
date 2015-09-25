@@ -19,6 +19,7 @@
 
 @property (nonatomic,strong) CameraSessionView* cameraView;
 @property (weak, nonatomic) IBOutlet PictureView *pictureView;
+@property (weak, nonatomic) IBOutlet UIButton *cameraRelaunchButton;
 
 @end
 
@@ -34,6 +35,11 @@
     
     systemColor = [UIColor colorWithRed:0.93 green:0.00 blue:0.00 alpha:1.0];
     
+    // Hide Re Launch Button
+    _cameraRelaunchButton.layer.cornerRadius = 8;
+    _cameraRelaunchButton.hidden = YES;
+    
+    // Launch Camera
     [self launchCamera:nil];
 
 }
@@ -50,6 +56,9 @@
         _cameraView = [[CameraSessionView alloc] initWithFrame:self.view.frame];
         _cameraView.delegate = self;
     }
+    
+    // Hide other view
+    [FVCustomAlertView hideAlertFromView:self.view fading:NO];
     
     self.tabBarController.tabBar.hidden = YES;
     self.pictureView.hidden = YES;
@@ -69,9 +78,13 @@
     // Unhide tab bar
     self.tabBarController.tabBar.hidden = NO;
     
+    // Instantiate new object
+    _cameraView = nil;
+    _cameraView = [[CameraSessionView  alloc] initWithFrame:self.view.frame];
+    _cameraView.delegate = self;
+    
     // Give Option To Relaunch Camera
-    UIButton* relaunchButton = [UIButton new];
-    relaunchButton.frame = CGRectMake(55, 266, 210, 35);
+    self.cameraRelaunchButton.hidden = NO;
 }
 
 #pragma Parse Calls
@@ -128,8 +141,6 @@
             }];
         }
     }];
-
-
 }
 
 #pragma mark - Loading Views
@@ -160,9 +171,6 @@
 
 
 #pragma mark - Helpers
-- (IBAction)retakePicture:(UIButton *)sender {
-    [self launchCamera:nil];
-}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];

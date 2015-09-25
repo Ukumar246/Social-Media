@@ -17,6 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZr-Jj-kmY">
+                                <rect key="frame" x="60" y="259" width="200" height="50"/>
+                                <color key="backgroundColor" red="0.88487929890000006" green="0.0" blue="0.0085350378800000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Capture" image="Camera-100">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="launchCamera:" destination="9pv-A4-QxB" eventType="touchUpInside" id="fq4-RI-0rM"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Y7-Ek-pEP" customClass="PictureView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <subviews>
@@ -59,7 +69,7 @@
                                             <color key="titleColor" red="0.88487929890000006" green="0.0" blue="0.0085350378800000005" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="retakePicture:" destination="9pv-A4-QxB" eventType="touchUpInside" id="eLv-Uo-jnC"/>
+                                            <action selector="launchCamera:" destination="9pv-A4-QxB" eventType="touchUpInside" id="kOM-UY-ug6"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -77,6 +87,7 @@
                     <tabBarItem key="tabBarItem" title="Capture" image="Camera-64" id="acW-dT-cKf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="cameraRelaunchButton" destination="CZr-Jj-kmY" id="QPG-WA-n1a"/>
                         <outlet property="pictureView" destination="4Y7-Ek-pEP" id="yi3-4E-5Z5"/>
                     </connections>
                 </viewController>
@@ -95,7 +106,21 @@
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSr-Jo-4di">
+                                <rect key="frame" x="60" y="259" width="200" height="50"/>
+                                <color key="backgroundColor" red="0.88487929890000006" green="0.0" blue="0.0085350378800000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Capture" image="Camera-100">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="WSr-Jo-4di"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Story" image="Near Me Filled-64" id="cPa-gy-q4n"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -148,6 +173,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Camera-100" width="50" height="50"/>
         <image name="Camera-64" width="32" height="32"/>
         <image name="Near Me Filled-64" width="32" height="32"/>
         <image name="Undo-100" width="100" height="100"/>
