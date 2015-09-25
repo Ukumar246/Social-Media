@@ -28,6 +28,7 @@
     // Appearance Tint
     [[UITabBar appearance] setTintColor:[UIColor redColor]];
     [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     return YES;
 }

@@ -20,12 +20,15 @@
 @property (nonatomic,strong) CameraSessionView* cameraView;
 @property (weak, nonatomic) IBOutlet PictureView *pictureView;
 @property (weak, nonatomic) IBOutlet UIButton *cameraRelaunchButton;
+@property (weak, nonatomic) IBOutlet UIButton *signoutButton;
 
 @end
 
 @implementation CaptureViewController{
     UIColor* systemColor;
     UIImage* uploadImage;
+    
+    UIView* blackTransparent;
 }
 
 #pragma mark - Start
@@ -38,6 +41,14 @@
     // Hide Re Launch Button
     _cameraRelaunchButton.layer.cornerRadius = 8;
     _cameraRelaunchButton.hidden = YES;
+    _signoutButton.hidden = YES;
+    _signoutButton.layer.cornerRadius = 8;
+    
+    // Transparent view setup
+    blackTransparent = [UIView new];
+    blackTransparent.frame = self.view.frame;
+    blackTransparent.backgroundColor = [UIColor blackColor];
+    blackTransparent.alpha = 0.8f;
     
     // Launch Camera
     [self launchCamera:nil];
@@ -51,13 +62,26 @@
 #pragma mark - Camera
 - (IBAction)launchCamera:(id)sender
 {
+    
     // Launch Camera
     if (!_cameraView) {
         _cameraView = [[CameraSessionView alloc] initWithFrame:self.view.frame];
         _cameraView.delegate = self;
     }
-    
+
+    // remove previous instances
+    if ([self.view.subviews containsObject:_cameraView]) {
+        [_cameraView removeFromSuperview];
+    }
+
     // Hide other view
+    _cameraRelaunchButton.hidden = YES;
+    _signoutButton.hidden = YES;
+    
+    if (blackTransparent != nil) {
+        blackTransparent.hidden = YES;
+    }
+    
     [FVCustomAlertView hideAlertFromView:self.view fading:NO];
     
     self.tabBarController.tabBar.hidden = YES;
@@ -65,12 +89,18 @@
     [self.view addSubview:_cameraView];
 }
 
-- (void) didCaptureImage:(UIImage *)image{
+- (void) didCaptureImage:(UIImage *)image withCamera:(int)cameraType{
+    //  Camera type: 0 = Front Facing     1 = Back Facing
     [_cameraView removeFromSuperview];
     self.tabBarController.tabBar.hidden = NO;
-    uploadImage = image;
-    [self loadPreview:image];
     
+    uploadImage = image;
+    // Flip the damn image if from front camera
+    if (cameraType == 0){
+        uploadImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationLeftMirrored];
+    }
+    
+    [self loadPreview:uploadImage];
 }
 
 // Camera view was dismissed
@@ -84,7 +114,15 @@
     _cameraView.delegate = self;
     
     // Give Option To Relaunch Camera
-    self.cameraRelaunchButton.hidden = NO;
+    _cameraRelaunchButton.hidden = NO;
+    _signoutButton.hidden = NO;
+    blackTransparent.hidden = NO;
+    
+    // Add camera with black tint
+    [self.view addSubview:_cameraView];
+    [self.view insertSubview:blackTransparent aboveSubview:_cameraView];
+    [self.view insertSubview:_cameraRelaunchButton aboveSubview:blackTransparent];
+    [self.view insertSubview:_signoutButton aboveSubview:blackTransparent];
 }
 
 #pragma Parse Calls
@@ -146,14 +184,24 @@
 #pragma mark - Loading Views
 - (void) loadPreview: (UIImage*) capturedImage
 {
+    // Hide other view
+    _cameraRelaunchButton.hidden = YES;
+    _signoutButton.hidden = YES;
+    
     // Rounded Button
     self.pictureView.uploadButton.layer.cornerRadius = CGRectGetWidth(self.pictureView.uploadButton.frame)/2;
+    [self.pictureView.uploadButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
-    self.pictureView.visualEffectView.layer.cornerRadius = 8;
+    self.pictureView.visualEffectView.layer.cornerRadius = 10;
     self.pictureView.visualEffectView.clipsToBounds = YES;
     
+    UIFont* font = [UIFont fontWithName:@"MarkerFelt-Thin" size:16.0];
+    
+    // clear data
+    self.pictureView.comment.text = @"";
+    
     // Placeholder
-    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: systemColor}];
+    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: systemColor, NSFontAttributeName:font}];
 
     // Addtional Setup
     [self.pictureView.uploadButton addTarget:self action:@selector(postPicture:) forControlEvents:UIControlEventTouchUpInside];
@@ -166,7 +214,7 @@
     } completion:nil];
     
     self.pictureView.imageView.image = capturedImage;
-    //self.pictureView.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.pictureView.imageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 
@@ -176,6 +224,11 @@
     [textField resignFirstResponder];
     
     return YES;
+}
+
+- (IBAction)signOutAction:(UIButton *)sender {
+    [PFUser logOutInBackground];
+    [self.tabBarController performSegueWithIdentifier:@"login" sender:nil];
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
