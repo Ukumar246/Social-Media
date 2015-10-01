@@ -7,29 +7,26 @@
 //
 
 #import "CaptureViewController.h"
-#import <Parse/Parse.h>
-#import "AppHelper.h"
-#import "PictureView.h"
-#import "FVCustomAlertView.h"
-
 #define commentOriginalY 50
 #define commentOffsetY 190
 
+static CGFloat originalBrightnessValue = 0.5;
 BOOL rotateImage = YES;
-@interface CaptureViewController ()<CACameraSessionDelegate, UITextFieldDelegate>
 
+@interface CaptureViewController ()<CACameraSessionDelegate, UITextFieldDelegate>
 @property (nonatomic,strong) CameraSessionView* cameraView;
 @property (weak, nonatomic) IBOutlet PictureView *pictureView;
-@property (weak, nonatomic) IBOutlet UIButton *cameraRelaunchButton;
-@property (weak, nonatomic) IBOutlet UIButton *signoutButton;
+@property (weak, nonatomic) IBOutlet CaptureOptionsView *optionPane;
 
 @end
 
 @implementation CaptureViewController{
-    UIColor* systemColor;
+    UIColor* customOrange;
+    UIColor* customWhite;
     UIImage* uploadImage;
     
     UIView* blackTransparent;
+    BOOL stealthMode;
 }
 
 #pragma mark - Start
@@ -37,13 +34,16 @@ BOOL rotateImage = YES;
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
-    systemColor = [UIColor colorWithRed:0.93 green:0.00 blue:0.00 alpha:1.0];
+    customOrange = [AppHelper customOrange];
+    customWhite = [UIColor whiteColor];
     
-    // Hide Re Launch Button
-    _cameraRelaunchButton.layer.cornerRadius = 8;
-    _cameraRelaunchButton.hidden = YES;
-    _signoutButton.hidden = YES;
-    _signoutButton.layer.cornerRadius = 8;
+    //Option Pane setup
+    _optionPane.backgroundColor = [UIColor clearColor];
+    _optionPane.hidden = YES;
+    [_optionPane.captureButton addTarget:self action:@selector(launchCamera:) forControlEvents:UIControlEventTouchUpInside];
+    [_optionPane.storyButton addTarget:self action:@selector(showStory:) forControlEvents:UIControlEventTouchUpInside];
+    [_optionPane.signoutButton addTarget:self action:@selector(signOutAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_optionPane.stealthSwitch addTarget:self action:@selector(toggleStealthMode:) forControlEvents:UIControlEventValueChanged];
     
     // Transparent view setup
     blackTransparent = [UIView new];
@@ -53,8 +53,8 @@ BOOL rotateImage = YES;
 
     // Launch Camera
     [self launchCamera:nil];
-
 }
+
 -(void ) viewWillAppear:(BOOL)animated{
     
     if (![self.view.subviews containsObject:_cameraView]){
@@ -79,12 +79,11 @@ BOOL rotateImage = YES;
 #pragma mark - Camera
 - (IBAction)launchCamera:(id)sender
 {
-    
     // Launch Camera
     if (!_cameraView) {
         _cameraView = [[CameraSessionView alloc] initWithFrame:self.view.frame];
         _cameraView.delegate = self;
-    }
+     }
 
     // remove previous instances
     if ([self.view.subviews containsObject:_cameraView]) {
@@ -92,8 +91,7 @@ BOOL rotateImage = YES;
     }
 
     // Hide other view
-    _cameraRelaunchButton.hidden = YES;
-    _signoutButton.hidden = YES;
+    _optionPane.hidden = YES;
     
     if (blackTransparent != nil) {
         blackTransparent.hidden = YES;
@@ -109,6 +107,12 @@ BOOL rotateImage = YES;
 - (void) didCaptureImage:(UIImage *)image withCamera:(int)cameraType{
     //  Camera type: 0 = Front Facing     1 = Back Facing
     [_cameraView removeFromSuperview];
+    
+    // Remove stealth mode
+    if (_cameraView.cameraStealth.isOn)
+        [UIScreen mainScreen].brightness = [AppHelper getUserBrightness];
+    
+    
     self.tabBarController.tabBar.hidden = NO;
     
     uploadImage = image;
@@ -125,21 +129,14 @@ BOOL rotateImage = YES;
     // Unhide tab bar
     self.tabBarController.tabBar.hidden = NO;
     
-    // Instantiate new object
-    _cameraView = nil;
-    _cameraView = [[CameraSessionView  alloc] initWithFrame:self.view.frame];
-    _cameraView.delegate = self;
-    
     // Give Option To Relaunch Camera
-    _cameraRelaunchButton.hidden = NO;
-    _signoutButton.hidden = NO;
+    _optionPane.hidden = NO;
     blackTransparent.hidden = NO;
     
     // Add camera with black tint
     [self.view addSubview:_cameraView];
     [self.view insertSubview:blackTransparent aboveSubview:_cameraView];
-    [self.view insertSubview:_cameraRelaunchButton aboveSubview:blackTransparent];
-    [self.view insertSubview:_signoutButton aboveSubview:blackTransparent];
+    [self.view insertSubview:_optionPane aboveSubview:blackTransparent];
 }
 
 #pragma Parse Calls
@@ -210,12 +207,11 @@ BOOL rotateImage = YES;
 - (void) loadPreview: (UIImage*) capturedImage
 {
     // Hide other view
-    _cameraRelaunchButton.hidden = YES;
-    _signoutButton.hidden = YES;
+    _optionPane.hidden = YES;
     
     // Rounded Button
     self.pictureView.uploadButton.layer.cornerRadius = CGRectGetWidth(self.pictureView.uploadButton.frame)/2;
-    [self.pictureView.uploadButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.pictureView.uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     self.pictureView.visualEffectView.layer.cornerRadius = 10;
     self.pictureView.visualEffectView.clipsToBounds = YES;
@@ -226,8 +222,8 @@ BOOL rotateImage = YES;
     self.pictureView.comment.text = @"";
     
     // Placeholder
-    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: systemColor, NSFontAttributeName:font}];
-
+    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: customWhite, NSFontAttributeName:font}];
+    
     // Addtional Setup
     [self.pictureView.uploadButton addTarget:self action:@selector(postPicture:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -244,7 +240,31 @@ BOOL rotateImage = YES;
 
 
 #pragma mark - Helpers
+- (IBAction)toggleStealthMode:(UISwitch*)sender
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        originalBrightnessValue = [UIScreen mainScreen].brightness;
+        [AppHelper logInBlueColor:[NSString stringWithFormat:@"saved org screen brightness: %f", originalBrightnessValue]];
+    });
+    
+    if (sender.isOn){
+        stealthMode = YES;
+        [AppHelper logInGreenColor:@"stealth mode ON"];
+        [[UIScreen mainScreen] setBrightness:0.0];
+    }
+    else{
+        stealthMode = NO;
+        [AppHelper logInGreenColor:@"stealth mode OFF"];
+        [[UIScreen mainScreen] setBrightness:originalBrightnessValue];
+    }
+}
 
+
+- (IBAction)showStory:(id)sender
+{
+    self.tabBarController.selectedIndex = 0;
+}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];

@@ -7,6 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FVCustomAlertView.h"
+#import "AppHelper.h"
+#import <ParseUI/ParseUI.h>
+#import <Parse/Parse.h>
+#import "ContentTableViewCell.h"
+#import "STPopup.h"
+#import "PopupViewController2.h"
+#import "PostCell.h"
 
 @interface StoryViewController : UIViewController
 

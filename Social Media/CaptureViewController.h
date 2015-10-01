@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomizableCamera/Camera View/CameraSessionView.h"
+#import <Parse/Parse.h>
+#import "AppHelper.h"
+#import "PictureView.h"
+#import "FVCustomAlertView.h"
+#import "CaptureOptionsView.h"
+
 
 @interface CaptureViewController : UIViewController
 

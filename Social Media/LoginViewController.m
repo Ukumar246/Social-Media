@@ -16,14 +16,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
-
 @property (nonatomic)       BOOL               userFound;
 
 @end
 
 @implementation LoginViewController{
-    UIColor* customRedColor;
-    
+    UIColor* customOrange;
+    UIColor* customWhite;
     PFGeoPoint* userLocation;
 }
 
@@ -33,17 +32,13 @@
     if (userFound){
         [AppHelper logInColor:@"user found"];
         // Log in button
-        [_actionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_actionButton setTitle:@"Nearby" forState:UIControlStateNormal];
-        [_actionButton setBackgroundColor: customRedColor];
     }
     else
     {
         [AppHelper logInColor:@"user NOT found"];
         // Sign up button
-        [_actionButton setTitleColor:customRedColor forState:UIControlStateNormal];
-        [_actionButton setTitle:@"Create" forState:UIControlStateNormal];
-        [_actionButton setBackgroundColor: [UIColor whiteColor]];
+        [_actionButton setTitle:@"Signup" forState:UIControlStateNormal];
     }
 }
 
@@ -55,6 +50,10 @@
     return NO;
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -64,26 +63,27 @@
     _userFound = YES;
     
     // Decor
-    UIFont* font = [UIFont fontWithName:@"MarkerFelt-Thin" size:16.0];
-    customRedColor = [UIColor colorWithRed:0.93 green:0.00 blue:0.00 alpha:1.0];
-    
+    UIFont* font = [AppHelper customFont];
+    customOrange = [AppHelper customOrange];
+    customWhite = [UIColor whiteColor];
+
     // Set Pattern Image
-    UIColor *patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blackpatter"]];
-    self.view.backgroundColor = patternColor;
+    //UIColor *patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtleDots"]];
+   // self.view.backgroundColor = patternColor;
     
     // Text Field Decor
     _username.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"email" attributes:@{
-                                                                           NSForegroundColorAttributeName:customRedColor,NSFontAttributeName:font
+                                                                           NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:font
                                                                            }];
     _password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"password" attributes:@{
-                                                                                                          NSForegroundColorAttributeName:customRedColor,NSFontAttributeName:font
+                                                                                                          NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:font
                                                                            }];
-    [self addBorderToTextField:_username withColor:customRedColor];
-    [self addBorderToTextField:_password withColor:customRedColor];
+    [self addBorderToTextField:_username withColor:customWhite];
+    [self addBorderToTextField:_password withColor:customWhite];
     
     // Button Decor
     _actionButton.layer.cornerRadius = CGRectGetWidth(_actionButton.frame)/2;
-    [_actionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_actionButton setTitleColor:customOrange forState:UIControlStateNormal];
 }
 
 - (void) addBorderToTextField:(UITextField*) tf withColor:(UIColor*) color
@@ -132,7 +132,7 @@
         
         // Hide Loading Alert
         [FVCustomAlertView hideAlertFromView:self.view fading:YES];
-        
+
         // User Denied locaiton
         if (geoPoint == nil)
         {

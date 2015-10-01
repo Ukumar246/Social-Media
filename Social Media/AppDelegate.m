@@ -31,8 +31,9 @@
     [AppHelper logInColor:@"Next Big Thing is here"];
     
     // Appearance Tint
-    [[UITabBar appearance] setTintColor:[UIColor redColor]];
-    [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setBarTintColor:[AppHelper customOrange]];
+    [[UINavigationBar appearance] setBarTintColor:[AppHelper customOrange]];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     // Get Location

@@ -7,92 +7,114 @@
 //
 
 #import "StoryViewController.h"
-#import "FVCustomAlertView.h"
-#import "AppHelper.h"
-#import <ParseUI/ParseUI.h>
-#import <Parse/Parse.h>
-#import "ContentTableViewCell.h"
+#import "TTRangeSlider.h"
 
 #define cellIdentifier @"contentcell"
+int maxSearchRange = 5;
+int minSearchRange = 1;
 
-@interface StoryViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIImageView *topPictureView;
-
-@property (nonatomic,strong) NSMutableArray* posts;
+@interface StoryViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@property (weak, nonatomic) IBOutlet    UICollectionView*   collectionView;
+@property (nonatomic,strong)            NSMutableArray*     posts;
+@property (nonatomic)                   int                 maxsearchFilter;
 @end
 
-@implementation StoryViewController
+@implementation StoryViewController{
+    BOOL filterViewVisible;
+}
 
+#pragma mark - Accessors
 - (void) setPosts:(NSMutableArray *)posts{
     if (posts == nil) {
         _posts = [NSMutableArray array];
         return;
     }
-    
     _posts = posts;
     [AppHelper logInColor:@"posts saved locally"];
 
-    [self.tableView reloadData];
+    [self.collectionView reloadData];
 }
 
-- (void) viewWillAppear:(BOOL)animated{
+
+- (void)setMaxsearchFilter:(int)maxsearchFilter
+{
+    _maxsearchFilter = maxsearchFilter;
+
+    if (_maxsearchFilter < minSearchRange)
+        _maxsearchFilter = minSearchRange;
+    else if (_maxsearchFilter > maxSearchRange)
+        _maxsearchFilter = maxSearchRange;
+    
+    
+    [AppHelper logInGreenColor:[NSString stringWithFormat:@"max range: %d", _maxsearchFilter]];
+    
+    [self.collectionView reloadData];
     [self getPostsNearMe];
 }
 
+#pragma mark - Start
 - (void) viewDidAppear:(BOOL)animated{
-    [AppHelper logInColor:@"Story Did Appear"];
+    [super viewDidAppear:animated];
+    [self setNeedsStatusBarAppearanceUpdate];
     
-    // Set Pattern Image Random
-//    int r = arc4random_uniform(2);
-//    NSString* imgIdentifier = [NSString stringWithFormat:@"Texture%d", r];
-//    UIColor *patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imgIdentifier]];
-//    self.view.backgroundColor = patternColor;
+    self.tabBarController.tabBar.hidden = NO;
+    
+    [self getPostsNearMe];
+    [AppHelper logInColor:@"Story Did Appear"];
 }
+
+- (UIStatusBarStyle) preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+- (BOOL) prefersStatusBarHidden{
+    return NO;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIColor *patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Texture2"]];
-    self.view.backgroundColor = patternColor;
+    // Default search - 1mi
+    self.maxsearchFilter = 1;
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    filterViewVisible = NO;
     
-    [self.view insertSubview:self.tableView aboveSubview:_topPictureView];
-
-    // Get posts
-    [self getPostsNearMe];
+    // Background Color
+    UIColor* patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtleDots"]];
+    _collectionView.backgroundColor = patternColor;
+    
+    
+    // ST Popup
+    [STPopupNavigationBar appearance].barTintColor = [AppHelper customOrange];
+    [STPopupNavigationBar appearance].tintColor = [UIColor whiteColor];
+    [STPopupNavigationBar appearance].barStyle = UIBarStyleDefault;
+    
+    [STPopupNavigationBar appearance].titleTextAttributes = @{ NSFontAttributeName: [AppHelper customFont],
+                                                               NSForegroundColorAttributeName: [UIColor whiteColor] };
+    
 }
 
-#pragma mark - Table view delegates
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+#pragma mark - Popoverview
+- (void)showPopupWithTransitionStyle:(STPopupTransitionStyle)transitionStyle rootViewController:(UIViewController *)rootViewController
+{
+    STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:rootViewController];
+    popupController.cornerRadius = 4;
+    popupController.transitionStyle = transitionStyle;
+    [popupController presentInViewController:self];
 }
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+#pragma mark - Collection view 
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.posts.count;
 }
 
-- (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    ContentTableViewCell* cell = (ContentTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (cell == nil) {
-        [AppHelper logError:@"fatal error: Nil cell"];
-        cell = [[ContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Nil cell"];
-        return cell;
-    }
-    
-    if (indexPath.row >= self.posts.count || self.posts == nil) {
-        [AppHelper logError:@"fatal error: non-valid index path for array"];
-        return cell;
-    }
-    
+    PostCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.layer.cornerRadius = 8;
+    cell.clipsToBounds = YES;
     cell.picture.image = nil;
-    cell.comment.hidden = NO;
-    cell.likeButton.hidden = NO;
-    cell.visualEffectView.hidden = NO;
     
     PFObject* post = [self.posts objectAtIndex:indexPath.row];
     
@@ -100,38 +122,79 @@
         [AppHelper logError:@"fatal error: Nil Post at index"];
         return cell;
     }
-    
-    
+
     // setup
     cell.picture.backgroundColor = [UIColor clearColor];
     cell.picture.file = post[@"picture"];
     [cell.picture loadInBackground];
-    cell.comment.text = post[@"comment"];
-    
+    cell.comment.layer.cornerRadius = 8;
     NSNumber* likes = post[@"likes"];
     if (likes!= nil)
         cell.likes.text = [likes stringValue];
+    else
+        cell.likes.text = @"0";
     
-    cell.likeButton.tag = indexPath.row;
-    [cell.likeButton setImage:[UIImage imageNamed:@"LikeRed"] forState:UIControlStateHighlighted];
-    
-    [cell.likeButton addTarget:self action:@selector(likePost:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 212;
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    PFObject* postObject = [self.posts objectAtIndex:indexPath.row];
+    
+    
+    PopupViewController2* dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"PopupViewController2"];
+    dvc.post = postObject;
+    
+    // Present
+    [self showPopupWithTransitionStyle:STPopupTransitionStyleSlideVertical rootViewController:dvc];
+    
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0;
+- (UICollectionReusableView*) collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    
+    UICollectionReusableView* reuseableView;
+    
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+    {
+        UICollectionReusableView* headerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerview" forIndexPath:indexPath];
+        
+        UILabel* labelRadiusIndicator = (UILabel*) [headerview viewWithTag:2];
+        labelRadiusIndicator.text = [NSString stringWithFormat:@"Radius: %d mi", _maxsearchFilter];
+        
+        if (_maxsearchFilter == maxSearchRange)
+            labelRadiusIndicator.text = @"All Photos";
+            
+        return headerview;
+    }
+    
+    return reuseableView;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    
+    return (filterViewVisible)? CGSizeMake(CGRectGetWidth(self.view.frame), 90): CGSizeMake(CGRectGetWidth(self.view.frame), 0);
+}
 
+#pragma mark - Actions
+// Show Filter View
+- (IBAction)filterViewTrigger:(UIBarButtonItem *)sender {
+    
+    filterViewVisible = (filterViewVisible) ? NO: YES;
+    
+    [self.collectionView reloadData];
+}
+- (IBAction)sliderValueChanged:(UISlider *)sender {
+    int newVal = (int) lroundf(sender.value);
+    [sender setValue:newVal];
+}
+
+- (IBAction)sliderDragged:(UISlider *)sender {
+    self.maxsearchFilter = sender.value;
+}
 
 #pragma mark - Database Calls
 - (IBAction)refresh:(id)sender {
-    
     [self getPostsNearMe];
 }
 
@@ -149,16 +212,28 @@
 -(void) getPostsNearMe
 {
     [AppHelper logInColor:@"fetching posts..."];
-    
     PFGeoPoint* userLocation = [AppHelper storedUserLocation];
+    
     if (userLocation == nil) {
         [AppHelper logError:@"user location never set before"];
         return;
     }
+    // Refetch Location
+    NSDate* lastLocationUpdate = [AppHelper lastLocationUpdateTime];
+    if ([lastLocationUpdate timeIntervalSinceNow] > 180) {
+        [AppHelper updateUserLocation];
+    }
     
     PFQuery* query = [PFQuery queryWithClassName:@"Post"];
-    // 1 mile filter
-    [query whereKey:@"location" nearGeoPoint:userLocation withinMiles:1.0];
+    // filter location
+    if (_maxsearchFilter < maxSearchRange){
+        [AppHelper logInColor:[NSString stringWithFormat:@"* filter set at %d mi", self.maxsearchFilter]];
+        [query whereKey:@"location" nearGeoPoint:userLocation withinMiles:self.maxsearchFilter];
+    }
+    else{
+        [AppHelper logInColor:@"* No Filter"];
+    }
+        
     // Recent First
     [query orderByDescending:@"createdAt"];
     

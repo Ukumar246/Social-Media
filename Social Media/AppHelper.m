@@ -9,10 +9,12 @@
 #import "AppHelper.h"
 
 static PFGeoPoint* userLocation = nil;
+static NSDate* locationTimeStamp = nil;
+static UIColor* customOrange = nil;
+static CGFloat userBrightnessValue = 0.5;
 
 @implementation AppHelper
-
-+(void)storeLocation:(PFGeoPoint*) passedLocation {
++(void)storeLocation:(PFGeoPoint*) passedLocation{
     
     if (passedLocation == nil) {
         userLocation = nil;
@@ -21,12 +23,61 @@ static PFGeoPoint* userLocation = nil;
     
     userLocation = [[PFGeoPoint alloc] init];
     userLocation = [PFGeoPoint geoPointWithLatitude:passedLocation.latitude longitude:passedLocation.longitude];
+    locationTimeStamp = [NSDate date];
     
     return;
 }
 + (PFGeoPoint*) storedUserLocation{
     return userLocation;
 }
+
++ (NSDate*) lastLocationUpdateTime{
+    return locationTimeStamp;
+}
+
++ (void) updateUserLocation{
+    
+    [self logInColor:@"updating user location..."];
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {
+        // User Denied locaiton
+        if (geoPoint == nil)
+        {
+            [AppHelper logError:@"no location found"];
+            [AppHelper storeLocation:nil];
+        }
+        else
+        {
+            // Test
+            NSString* disStr = [NSString stringWithFormat:@"Parse: got location:\t Lat: %f Lon: %f\nstoring..", geoPoint.latitude, geoPoint.longitude];
+            [AppHelper logInColor:disStr];
+            // Save
+            [AppHelper storeLocation:geoPoint];
+            [AppHelper logInGreenColor:@"stored location!"];
+        }
+    }];
+}
+
++ (void) setUserBrightness{
+    userBrightnessValue = [UIScreen mainScreen].brightness;
+}
+
++ (CGFloat) getUserBrightness{
+    return userBrightnessValue;
+}
+
++ (UIColor*) customOrange
+{
+    if (customOrange == nil){
+        customOrange = [UIColor colorWithRed:0.8591269850730896 green:0.30380582809448242 blue:0.077547885477542877 alpha:1];
+    }
+    
+    return customOrange;
+}
+
++ (UIFont*) customFont{
+    return [UIFont fontWithName:@"MarkerFelt-Thin" size:16.0];
+}
+
 
 + (UIColor*) systemColor{
     return [self colorWithHexString:@"#e91313"];

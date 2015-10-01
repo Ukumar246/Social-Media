@@ -26,6 +26,16 @@
 
 + (PFGeoPoint*) storedUserLocation;
 
++ (NSDate*) lastLocationUpdateTime;
+
++ (void) updateUserLocation;
+
++ (void) setUserBrightness;
++ (CGFloat) getUserBrightness;
+
++ (UIColor*) customOrange;
+
++ (UIFont*) customFont;
 
 // System Color
 + (UIColor*) systemColor;

@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		37269CCE1BB5E37C004B930A /* ContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		37A817401BBC9EBD00988BD0 /* CaptureOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8173F1BBC9EBD00988BD0 /* CaptureOptionsView.m */; settings = {ASSET_TAGS = (); }; };
+		37A8174D1BBCD8E600988BD0 /* STPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817441BBCD8E600988BD0 /* STPopupController.m */; settings = {ASSET_TAGS = (); }; };
+		37A8174E1BBCD8E600988BD0 /* STPopupLeftBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817461BBCD8E600988BD0 /* STPopupLeftBarItem.m */; settings = {ASSET_TAGS = (); }; };
+		37A8174F1BBCD8E600988BD0 /* STPopupNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817481BBCD8E600988BD0 /* STPopupNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
+		37A817501BBCD8E600988BD0 /* UIResponder+STPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8174A1BBCD8E600988BD0 /* UIResponder+STPopup.m */; settings = {ASSET_TAGS = (); }; };
+		37A817511BBCD8E600988BD0 /* UIViewController+STPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8174C1BBCD8E600988BD0 /* UIViewController+STPopup.m */; settings = {ASSET_TAGS = (); }; };
+		37A817541BBCDA2B00988BD0 /* PopupViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817531BBCDA2B00988BD0 /* PopupViewController1.m */; settings = {ASSET_TAGS = (); }; };
+		37A8175B1BBCE0BC00988BD0 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8175A1BBCE0BC00988BD0 /* PostCell.m */; settings = {ASSET_TAGS = (); }; };
+		37A8175E1BBCE74B00988BD0 /* PopupViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8175D1BBCE74B00988BD0 /* PopupViewController2.m */; settings = {ASSET_TAGS = (); }; };
 		37B910031BB5027400E6B3AB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B910021BB5027400E6B3AB /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		37C95CE91BB4AE3000DC6B61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CE81BB4AE3000DC6B61 /* main.m */; };
 		37C95CEC1BB4AE3000DC6B61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CEB1BB4AE3000DC6B61 /* AppDelegate.m */; };
@@ -139,6 +148,7 @@
 		37E162C21BB5B16A00D56F16 /* MDSuggestTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E162921BB5B16A00D56F16 /* MDSuggestTableView.m */; settings = {ASSET_TAGS = (); }; };
 		37E162C31BB5B16A00D56F16 /* UIView+MDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E162941BB5B16A00D56F16 /* UIView+MDExtension.m */; settings = {ASSET_TAGS = (); }; };
 		37E162C41BB5B16A00D56F16 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37E162991BB5B16A00D56F16 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
+		37E1F3451BBDB33100B70A4F /* TTRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F3431BBDB33100B70A4F /* TTRangeSlider.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +171,25 @@
 /* Begin PBXFileReference section */
 		37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTableViewCell.h; sourceTree = "<group>"; };
 		37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTableViewCell.m; sourceTree = "<group>"; };
+		37A8173E1BBC9EBD00988BD0 /* CaptureOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureOptionsView.h; path = ../CaptureOptionsView.h; sourceTree = "<group>"; };
+		37A8173F1BBC9EBD00988BD0 /* CaptureOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureOptionsView.m; path = ../CaptureOptionsView.m; sourceTree = "<group>"; };
+		37A817421BBCD8E600988BD0 /* STPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPopup.h; sourceTree = "<group>"; };
+		37A817431BBCD8E600988BD0 /* STPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPopupController.h; sourceTree = "<group>"; };
+		37A817441BBCD8E600988BD0 /* STPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPopupController.m; sourceTree = "<group>"; };
+		37A817451BBCD8E600988BD0 /* STPopupLeftBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPopupLeftBarItem.h; sourceTree = "<group>"; };
+		37A817461BBCD8E600988BD0 /* STPopupLeftBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPopupLeftBarItem.m; sourceTree = "<group>"; };
+		37A817471BBCD8E600988BD0 /* STPopupNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPopupNavigationBar.h; sourceTree = "<group>"; };
+		37A817481BBCD8E600988BD0 /* STPopupNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPopupNavigationBar.m; sourceTree = "<group>"; };
+		37A817491BBCD8E600988BD0 /* UIResponder+STPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+STPopup.h"; sourceTree = "<group>"; };
+		37A8174A1BBCD8E600988BD0 /* UIResponder+STPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+STPopup.m"; sourceTree = "<group>"; };
+		37A8174B1BBCD8E600988BD0 /* UIViewController+STPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+STPopup.h"; sourceTree = "<group>"; };
+		37A8174C1BBCD8E600988BD0 /* UIViewController+STPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+STPopup.m"; sourceTree = "<group>"; };
+		37A817521BBCDA2B00988BD0 /* PopupViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController1.h; sourceTree = "<group>"; };
+		37A817531BBCDA2B00988BD0 /* PopupViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController1.m; sourceTree = "<group>"; };
+		37A817591BBCE0BC00988BD0 /* PostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostCell.h; sourceTree = "<group>"; };
+		37A8175A1BBCE0BC00988BD0 /* PostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCell.m; sourceTree = "<group>"; };
+		37A8175C1BBCE74B00988BD0 /* PopupViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController2.h; sourceTree = "<group>"; };
+		37A8175D1BBCE74B00988BD0 /* PopupViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController2.m; sourceTree = "<group>"; };
 		37B910011BB5027400E6B3AB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		37B910021BB5027400E6B3AB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		37C95CE41BB4AE3000DC6B61 /* Social Media.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Media.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -356,6 +385,9 @@
 		37E162941BB5B16A00D56F16 /* UIView+MDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MDExtension.m"; sourceTree = "<group>"; };
 		37E162951BB5B16A00D56F16 /* iOSUILib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = iOSUILib.xcodeproj; sourceTree = "<group>"; };
 		37E162991BB5B16A00D56F16 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37E1F3421BBDB33100B70A4F /* TTRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRangeSlider.h; sourceTree = "<group>"; };
+		37E1F3431BBDB33100B70A4F /* TTRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRangeSlider.m; sourceTree = "<group>"; };
+		37E1F3441BBDB33100B70A4F /* TTRangeSliderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRangeSliderDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +419,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37A8173B1BBC9E8100988BD0 /* Subclass Components */ = {
+			isa = PBXGroup;
+			children = (
+				37A8173E1BBC9EBD00988BD0 /* CaptureOptionsView.h */,
+				37A8173F1BBC9EBD00988BD0 /* CaptureOptionsView.m */,
+				37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */,
+				37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */,
+				37C95D581BB4DCE300DC6B61 /* PictureView.h */,
+				37C95D591BB4DCE300DC6B61 /* PictureView.m */,
+				37A817591BBCE0BC00988BD0 /* PostCell.h */,
+				37A8175A1BBCE0BC00988BD0 /* PostCell.m */,
+			);
+			name = "Subclass Components";
+			sourceTree = "<group>";
+		};
+		37A817411BBCD8E600988BD0 /* STPopup */ = {
+			isa = PBXGroup;
+			children = (
+				37A817421BBCD8E600988BD0 /* STPopup.h */,
+				37A817431BBCD8E600988BD0 /* STPopupController.h */,
+				37A817441BBCD8E600988BD0 /* STPopupController.m */,
+				37A817451BBCD8E600988BD0 /* STPopupLeftBarItem.h */,
+				37A817461BBCD8E600988BD0 /* STPopupLeftBarItem.m */,
+				37A817471BBCD8E600988BD0 /* STPopupNavigationBar.h */,
+				37A817481BBCD8E600988BD0 /* STPopupNavigationBar.m */,
+				37A817491BBCD8E600988BD0 /* UIResponder+STPopup.h */,
+				37A8174A1BBCD8E600988BD0 /* UIResponder+STPopup.m */,
+				37A8174B1BBCD8E600988BD0 /* UIViewController+STPopup.h */,
+				37A8174C1BBCD8E600988BD0 /* UIViewController+STPopup.m */,
+				37A8175C1BBCE74B00988BD0 /* PopupViewController2.h */,
+				37A8175D1BBCE74B00988BD0 /* PopupViewController2.m */,
+				37A817521BBCDA2B00988BD0 /* PopupViewController1.h */,
+				37A817531BBCDA2B00988BD0 /* PopupViewController1.m */,
+			);
+			path = STPopup;
+			sourceTree = "<group>";
+		};
+		37A817561BBCE08D00988BD0 /* Custom Alert */ = {
+			isa = PBXGroup;
+			children = (
+				37C95D5B1BB4F01C00DC6B61 /* FVCustomAlertView.h */,
+				37C95D5C1BB4F01C00DC6B61 /* FVCustomAlertView.m */,
+			);
+			name = "Custom Alert";
+			sourceTree = "<group>";
+		};
 		37C95CDB1BB4AE3000DC6B61 = {
 			isa = PBXGroup;
 			children = (
@@ -414,9 +492,10 @@
 				37C95CF81BB4AE3000DC6B61 /* LaunchScreen.storyboard */,
 				37C95CFB1BB4AE3000DC6B61 /* Info.plist */,
 				37C95D081BB4CEDE00DC6B61 /* Frameworks */,
-				37C95D5B1BB4F01C00DC6B61 /* FVCustomAlertView.h */,
-				37C95D5C1BB4F01C00DC6B61 /* FVCustomAlertView.m */,
+				37A817561BBCE08D00988BD0 /* Custom Alert */,
 				37C95D5E1BB4F02600DC6B61 /* FVCustomAlertViewResources */,
+				37E1F3411BBDB33100B70A4F /* Range Slider */,
+				37A817411BBCD8E600988BD0 /* STPopup */,
 				37E1623B1BB5B16A00D56F16 /* iOSUILib */,
 				37C95D2E1BB4D19800DC6B61 /* CustomizableCamera */,
 				37C95CE71BB4AE3000DC6B61 /* Supporting Files */,
@@ -437,12 +516,9 @@
 		37C95D041BB4CA0900DC6B61 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */,
-				37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */,
+				37A8173B1BBC9E8100988BD0 /* Subclass Components */,
 				37B910011BB5027400E6B3AB /* LoginViewController.h */,
 				37B910021BB5027400E6B3AB /* LoginViewController.m */,
-				37C95D581BB4DCE300DC6B61 /* PictureView.h */,
-				37C95D591BB4DCE300DC6B61 /* PictureView.m */,
 				37C95D051BB4CA4300DC6B61 /* TabBarViewController.h */,
 				37C95D061BB4CA4300DC6B61 /* TabBarViewController.m */,
 				37C95CED1BB4AE3000DC6B61 /* CaptureViewController.h */,
@@ -761,6 +837,17 @@
 			path = iOSUILibTests;
 			sourceTree = "<group>";
 		};
+		37E1F3411BBDB33100B70A4F /* Range Slider */ = {
+			isa = PBXGroup;
+			children = (
+				37E1F3421BBDB33100B70A4F /* TTRangeSlider.h */,
+				37E1F3431BBDB33100B70A4F /* TTRangeSlider.m */,
+				37E1F3441BBDB33100B70A4F /* TTRangeSliderDelegate.h */,
+			);
+			name = "Range Slider";
+			path = STPopup/Classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -905,22 +992,28 @@
 			files = (
 				37E162A01BB5B16A00D56F16 /* MDCalendarYearSelector.m in Sources */,
 				37E162B91BB5B16A00D56F16 /* MDTouchGestureRecognizer.m in Sources */,
+				37E1F3451BBDB33100B70A4F /* TTRangeSlider.m in Sources */,
 				37E162B31BB5B16A00D56F16 /* MDSwitch.m in Sources */,
+				37A817501BBCD8E600988BD0 /* UIResponder+STPopup.m in Sources */,
 				37E162AE1BB5B16A00D56F16 /* MDCollectionViewCell.m in Sources */,
+				37A817401BBC9EBD00988BD0 /* CaptureOptionsView.m in Sources */,
 				37C95D4E1BB4D19800DC6B61 /* CameraShutterButton.m in Sources */,
 				37E162BC1BB5B16A00D56F16 /* MDProgressLayer.m in Sources */,
 				37C95D531BB4D19800DC6B61 /* CameraStyleKitClass.m in Sources */,
 				37C95D4B1BB4D19800DC6B61 /* CameraDismissButton.m in Sources */,
+				37A8175E1BBCE74B00988BD0 /* PopupViewController2.m in Sources */,
 				37E162B11BB5B16A00D56F16 /* MDSlider.m in Sources */,
 				37E162A91BB5B16A00D56F16 /* NSDateHelper.m in Sources */,
 				37C95CF21BB4AE3000DC6B61 /* StoryViewController.m in Sources */,
 				37E162C11BB5B16A00D56F16 /* MDSuggestPopupView.m in Sources */,
+				37A8174D1BBCD8E600988BD0 /* STPopupController.m in Sources */,
 				37E1629F1BB5B16A00D56F16 /* MDCalendarHeader.m in Sources */,
 				37E162AB1BB5B16A00D56F16 /* UIFontHelper.m in Sources */,
 				37E162A11BB5B16A00D56F16 /* MDCalendarYearSelectorViewCell.m in Sources */,
 				37E162A61BB5B16A00D56F16 /* NSDate+MDExtension.m in Sources */,
 				37E162BB1BB5B16A00D56F16 /* MDLinearProgressLayer.m in Sources */,
 				37E162AD1BB5B16A00D56F16 /* MDButton.m in Sources */,
+				37A8174E1BBCD8E600988BD0 /* STPopupLeftBarItem.m in Sources */,
 				37E1629B1BB5B16A00D56F16 /* AutoResizeTextView.m in Sources */,
 				37E162AF1BB5B16A00D56F16 /* MDProgress.m in Sources */,
 				37E162B61BB5B16A00D56F16 /* MDTableViewCell.m in Sources */,
@@ -938,6 +1031,7 @@
 				37E1629E1BB5B16A00D56F16 /* MDCalendarDateHeader.m in Sources */,
 				37E162C21BB5B16A00D56F16 /* MDSuggestTableView.m in Sources */,
 				37C95CEF1BB4AE3000DC6B61 /* CaptureViewController.m in Sources */,
+				37A8175B1BBCE0BC00988BD0 /* PostCell.m in Sources */,
 				37269CCE1BB5E37C004B930A /* ContentTableViewCell.m in Sources */,
 				37E162B01BB5B16A00D56F16 /* MDRippleLayer.m in Sources */,
 				37C95D501BB4D19800DC6B61 /* LaunchCameraButton.m in Sources */,
@@ -948,15 +1042,18 @@
 				37C95D071BB4CA4300DC6B61 /* TabBarViewController.m in Sources */,
 				37E162BA1BB5B16A00D56F16 /* MDCircularProgressLayer.m in Sources */,
 				37E1629C1BB5B16A00D56F16 /* MDCalendar.m in Sources */,
+				37A817541BBCDA2B00988BD0 /* PopupViewController1.m in Sources */,
 				37E162A21BB5B16A00D56F16 /* MDDatePicker.m in Sources */,
 				37E162B21BB5B16A00D56F16 /* MDSnackbar.m in Sources */,
 				37E162A41BB5B16A00D56F16 /* MDTimePickerDialog.m in Sources */,
+				37A817511BBCD8E600988BD0 /* UIViewController+STPopup.m in Sources */,
 				37E162BD1BB5B16A00D56F16 /* MDBubbleLabel.m in Sources */,
 				37C95D4A1BB4D19800DC6B61 /* CameraSessionView.m in Sources */,
 				37E162A31BB5B16A00D56F16 /* MDDatePickerDialog.m in Sources */,
 				37C95D5A1BB4DCE300DC6B61 /* PictureView.m in Sources */,
 				37C95D031BB4AFC100DC6B61 /* ProfileViewController.m in Sources */,
 				37E162B41BB5B16A00D56F16 /* MDTabBar.m in Sources */,
+				37A8174F1BBCD8E600988BD0 /* STPopupNavigationBar.m in Sources */,
 				37C95D5D1BB4F01C00DC6B61 /* FVCustomAlertView.m in Sources */,
 				37E162AC1BB5B16A00D56F16 /* UIViewHelper.m in Sources */,
 				37C95D4F1BB4D19800DC6B61 /* CameraToggleButton.m in Sources */,
