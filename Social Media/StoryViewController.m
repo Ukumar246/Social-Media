@@ -21,6 +21,7 @@ int minSearchRange = 1;
 
 @implementation StoryViewController{
     BOOL filterViewVisible;
+    NSDate* filterDate;
 }
 
 #pragma mark - Accessors
@@ -34,7 +35,6 @@ int minSearchRange = 1;
 
     [self.collectionView reloadData];
 }
-
 
 - (void)setMaxsearchFilter:(int)maxsearchFilter
 {
@@ -55,18 +55,18 @@ int minSearchRange = 1;
 #pragma mark - Start
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self setNeedsStatusBarAppearanceUpdate];
-    
     self.tabBarController.tabBar.hidden = NO;
     
-    [self getPostsNearMe];
+    if ([PFUser currentUser] == nil)
+        [AppHelper logError:@"NO User Signed in.. crash bound"];
+    
     [AppHelper logInColor:@"Story Did Appear"];
 }
 
-- (UIStatusBarStyle) preferredStatusBarStyle{
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleLightContent;
 }
-
 - (BOOL) prefersStatusBarHidden{
     return NO;
 }
@@ -74,11 +74,12 @@ int minSearchRange = 1;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     
     // Default search - 1mi
     self.maxsearchFilter = 1;
-    
     filterViewVisible = NO;
+    [self getPostsNearMe];
     
     // Background Color
     UIColor* patternColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtleDots"]];
@@ -127,7 +128,7 @@ int minSearchRange = 1;
     cell.picture.backgroundColor = [UIColor clearColor];
     cell.picture.file = post[@"picture"];
     [cell.picture loadInBackground];
-    cell.comment.layer.cornerRadius = 8;
+    cell.likes.layer.cornerRadius = 8;
     NSNumber* likes = post[@"likes"];
     if (likes!= nil)
         cell.likes.text = [likes stringValue];
@@ -173,7 +174,7 @@ int minSearchRange = 1;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     
-    return (filterViewVisible)? CGSizeMake(CGRectGetWidth(self.view.frame), 90): CGSizeMake(CGRectGetWidth(self.view.frame), 0);
+    return (filterViewVisible)? CGSizeMake(CGRectGetWidth(self.view.frame), 95): CGSizeMake(CGRectGetWidth(self.view.frame), 0);
 }
 
 #pragma mark - Actions
@@ -184,6 +185,24 @@ int minSearchRange = 1;
     
     [self.collectionView reloadData];
 }
+
+// Date Filter
+- (IBAction)dateChanged:(UISegmentedControl *)sender {
+    
+    if (sender.selectedSegmentIndex == 0)
+    {
+        
+    }
+    else if (sender.selectedSegmentIndex == 1)
+    {
+        
+    }
+    else{
+        
+    }
+}
+
+// Radius Alter
 - (IBAction)sliderValueChanged:(UISlider *)sender {
     int newVal = (int) lroundf(sender.value);
     [sender setValue:newVal];
@@ -196,17 +215,6 @@ int minSearchRange = 1;
 #pragma mark - Database Calls
 - (IBAction)refresh:(id)sender {
     [self getPostsNearMe];
-}
-
-
--(void) likePost:(UIButton*) button
-{
-    PFObject* post = [self.posts objectAtIndex:button.tag];
-    [post incrementKey:@"likes"];
-    [post saveInBackground];
-    
-    [AppHelper logInColor:@"liked!"];
-    [button setImage:[UIImage imageNamed:@"LikeRed"] forState:UIControlStateNormal];
 }
 
 -(void) getPostsNearMe
@@ -227,15 +235,18 @@ int minSearchRange = 1;
     PFQuery* query = [PFQuery queryWithClassName:@"Post"];
     // filter location
     if (_maxsearchFilter < maxSearchRange){
-        [AppHelper logInColor:[NSString stringWithFormat:@"* filter set at %d mi", self.maxsearchFilter]];
+        [AppHelper logInBlueColor:[NSString stringWithFormat:@"* filter set at %d mi", self.maxsearchFilter]];
         [query whereKey:@"location" nearGeoPoint:userLocation withinMiles:self.maxsearchFilter];
     }
     else{
-        [AppHelper logInColor:@"* No Filter"];
+        [AppHelper logInBlueColor:@"* No Filter"];
     }
         
     // Recent First
     [query orderByDescending:@"createdAt"];
+    
+    // Query Include keys
+    [query includeKey:@"user"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         

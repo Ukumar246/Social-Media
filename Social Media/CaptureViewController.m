@@ -7,6 +7,8 @@
 //
 
 #import "CaptureViewController.h"
+#import "UCZProgressView.h"
+
 #define commentOriginalY 50
 #define commentOffsetY 190
 
@@ -27,16 +29,32 @@ BOOL rotateImage = YES;
     
     UIView* blackTransparent;
     BOOL stealthMode;
+    
+    // ProgressView
+    UCZProgressView* progressView;
 }
 
 #pragma mark - Start
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
-    
+
     customOrange = [AppHelper customOrange];
     customWhite = [UIColor whiteColor];
     
+    // Setup Views
+    [self viewsSetup];
+
+    // Launch Camera
+    [self launchCamera:nil];
+}
+
+-(void) viewsSetup
+{
+    // Picture View Setup
+    _pictureView.visualEffectView.layer.cornerRadius = 10;
+    _pictureView.visualEffectView.clipsToBounds = YES;
+
     //Option Pane setup
     _optionPane.backgroundColor = [UIColor clearColor];
     _optionPane.hidden = YES;
@@ -51,8 +69,7 @@ BOOL rotateImage = YES;
     blackTransparent.backgroundColor = [UIColor blackColor];
     blackTransparent.alpha = 0.8f;
 
-    // Launch Camera
-    [self launchCamera:nil];
+    return;
 }
 
 -(void ) viewWillAppear:(BOOL)animated{
@@ -83,7 +100,7 @@ BOOL rotateImage = YES;
     if (!_cameraView) {
         _cameraView = [[CameraSessionView alloc] initWithFrame:self.view.frame];
         _cameraView.delegate = self;
-     }
+    }
 
     // remove previous instances
     if ([self.view.subviews containsObject:_cameraView]) {
@@ -92,13 +109,12 @@ BOOL rotateImage = YES;
 
     // Hide other view
     _optionPane.hidden = YES;
-    
     if (blackTransparent != nil) {
         blackTransparent.hidden = YES;
     }
-    
     [FVCustomAlertView hideAlertFromView:self.view fading:NO];
     
+    // Camera view
     self.tabBarController.tabBar.hidden = YES;
     self.pictureView.hidden = YES;
     [self.view addSubview:_cameraView];
@@ -111,10 +127,7 @@ BOOL rotateImage = YES;
     // Remove stealth mode
     if (_cameraView.cameraStealth.isOn)
         [UIScreen mainScreen].brightness = [AppHelper getUserBrightness];
-    
-    
-    self.tabBarController.tabBar.hidden = NO;
-    
+
     uploadImage = image;
     // Flip the damn image if from front camera
     if (cameraType == 0){
@@ -142,14 +155,11 @@ BOOL rotateImage = YES;
 #pragma Parse Calls
 - (IBAction)postPicture:(id)sender
 {
-    [AppHelper logInColor:@"uploading picture.."];
-    
-    if (uploadImage == nil) {
+    if (uploadImage == nil)
+    {
         [AppHelper logError:@"fatal error: No image data!!"];
         return;
     }
-    
-    // Test
     PFGeoPoint* storedUserLoc = [AppHelper storedUserLocation];
     if (storedUserLoc == nil)     // No Location was stored
     {
@@ -160,61 +170,86 @@ BOOL rotateImage = YES;
     
     // UPLOAD
     // Alert User
-    [FVCustomAlertView showDefaultLoadingAlertOnView:self.view withTitle:@"Loading..." withBlur:YES allowTap:YES];
+    [AppHelper logInColor:@"uploading picture...."];
+    
+    // Alert View
+    progressView = [[UCZProgressView alloc] initWithFrame:self.view.bounds];
+    progressView.translatesAutoresizingMaskIntoConstraints = NO;
+    progressView.showsText = YES;
+    progressView.tintColor = customOrange;
+    progressView.textColor = customOrange;
+    progressView.blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+    [self.view addSubview:progressView];
+    UITapGestureRecognizer* tapToDismissAlert = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissView:)];
+    [progressView addGestureRecognizer:tapToDismissAlert];
     
     PFObject* post = [PFObject objectWithClassName:@"Post"];
-    
     if ([PFUser currentUser] != nil) {
         post[@"user"] = [PFUser currentUser];
     }
+    
     // Save Comment
     post[@"comment"] = self.pictureView.comment.text;
     post[@"location"] = storedUserLoc;
-    
     // Save Picure
     NSData* data = UIImageJPEGRepresentation(uploadImage, 0.85);
     PFFile *imageFile = [PFFile fileWithName:@"post.jpg" data:data];
     
-    // Save the image to Parse
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    // UPLOAD FILE
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
         // Hide Loading Alert
-        [FVCustomAlertView hideAlertFromView:self.view fading:NO];
+        //[FVCustomAlertView hideAlertFromView:self.view fading:NO];
+        
+        // SUCCESS
+        if (succeeded && !error)
+        {
+            [AppHelper logInColor:@"File Uploaded.. saving Post"];
 
-        if (!error) {
-            [AppHelper logInColor:@"The image has now been uploaded to Parse. Associate it with a new object"];
             // Link Photo to Upload
             [post setObject:imageFile forKey:@"picture"];
-            
             [post saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    [AppHelper logInGreenColor:@"saved!"];
+                if (succeeded && !error) {
+                    [AppHelper logInGreenColor:@"The image has now been uploaded to Parse. Associate it with a new object"];
                     
-                    [FVCustomAlertView hideAlertFromView:self.view fading:NO];
+                    // SHOW DONE ALERT
+                    //[FVCustomAlertView hideAlertFromView:self.view fading:NO];
                     [FVCustomAlertView showDefaultDoneAlertOnView:self.view withTitle:@"Done" withBlur:YES allowTap:YES];
                     [self performSelector:@selector(launchCamera:) withObject:nil afterDelay:2];
                 }
                 else{
                     NSString* errStr = [NSString stringWithFormat:@"Error: %@ %@", error, [error userInfo]];
-                    [AppHelper logInGreenColor:errStr];
-
+                    [AppHelper logInColor:errStr];
+                    [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"Error Saving" withBlur:YES allowTap:YES];
                 }
             }];
         }
+        // ERROR
+        else
+        {
+             NSString* errStr = [NSString stringWithFormat:@"Error: %@", [error userInfo]];
+            [AppHelper logInColor:errStr];
+            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"Error Uploading" withBlur:YES allowTap:YES];
+        }
+    } progressBlock:^(int percentDone) {
+        float percentDoneFloat = (float)percentDone/100;
+        [AppHelper logInBlueColor:[NSString stringWithFormat:@"%.2f", percentDoneFloat]];
+        [progressView setProgress:percentDoneFloat animated:YES];
     }];
 }
 
 #pragma mark - Loading Views
 - (void) loadPreview: (UIImage*) capturedImage
 {
+    // Update Location
+    [AppHelper updateUserLocation];
+    
     // Hide other view
     _optionPane.hidden = YES;
     
     // Rounded Button
     self.pictureView.uploadButton.layer.cornerRadius = CGRectGetWidth(self.pictureView.uploadButton.frame)/2;
     [self.pictureView.uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
-    self.pictureView.visualEffectView.layer.cornerRadius = 10;
-    self.pictureView.visualEffectView.clipsToBounds = YES;
     
     UIFont* font = [UIFont fontWithName:@"MarkerFelt-Thin" size:16.0];
     
@@ -222,7 +257,7 @@ BOOL rotateImage = YES;
     self.pictureView.comment.text = @"";
     
     // Placeholder
-    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: customWhite, NSFontAttributeName:font}];
+    self.pictureView.comment.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"comment" attributes:@{NSForegroundColorAttributeName: customOrange, NSFontAttributeName:font}];
     
     // Addtional Setup
     [self.pictureView.uploadButton addTarget:self action:@selector(postPicture:) forControlEvents:UIControlEventTouchUpInside];
@@ -238,8 +273,13 @@ BOOL rotateImage = YES;
     self.pictureView.imageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
-
 #pragma mark - Helpers
+
+- (IBAction)dismissView:(UITapGestureRecognizer*)sender
+{
+    UIView* attachedProgressView = sender.view;
+    [attachedProgressView removeFromSuperview];
+}
 - (IBAction)toggleStealthMode:(UISwitch*)sender
 {
     static dispatch_once_t once;
@@ -266,28 +306,24 @@ BOOL rotateImage = YES;
     self.tabBarController.selectedIndex = 0;
 }
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    
-    return YES;
-}
-
 - (IBAction)signOutAction:(UIButton *)sender {
     [PFUser logOutInBackground];
     [self.tabBarController performSegueWithIdentifier:@"login" sender:nil];
 }
 
+- (BOOL) textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     // Prevent crashing undo bug – see note below.
     if(range.length + range.location > textField.text.length)
-    {
         return NO;
-    }
     
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
-    if (newLength <= 50) {
+    if (newLength <= 50)
         return YES;
-    }
     else
         return NO;
 }

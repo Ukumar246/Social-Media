@@ -33,6 +33,8 @@
 + (void) setUserBrightness;
 + (CGFloat) getUserBrightness;
 
++ (UIColor*) topBarColor;
+
 + (UIColor*) customOrange;
 
 + (UIFont*) customFont;

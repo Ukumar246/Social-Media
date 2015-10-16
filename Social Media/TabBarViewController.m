@@ -22,7 +22,7 @@
     // Auto direct to Capture Page
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        self.selectedIndex = 0;
+        self.selectedIndex = 1;
     });
 }
 

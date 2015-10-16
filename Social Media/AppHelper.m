@@ -11,6 +11,7 @@
 static PFGeoPoint* userLocation = nil;
 static NSDate* locationTimeStamp = nil;
 static UIColor* customOrange = nil;
+static UIColor* topBarColor = nil;
 static CGFloat userBrightnessValue = 0.5;
 
 @implementation AppHelper
@@ -18,12 +19,18 @@ static CGFloat userBrightnessValue = 0.5;
     
     if (passedLocation == nil) {
         userLocation = nil;
+        [AppHelper logError:@"no location found"];
         return;
     }
     
     userLocation = [[PFGeoPoint alloc] init];
-    userLocation = [PFGeoPoint geoPointWithLatitude:passedLocation.latitude longitude:passedLocation.longitude];
+    userLocation = passedLocation;
+    //userLocation = [PFGeoPoint geoPointWithLatitude:passedLocation.latitude longitude:passedLocation.longitude];
     locationTimeStamp = [NSDate date];
+    
+    // Log
+    NSString* disStr = [NSString stringWithFormat:@"Universal: stored location:\t Lat: %f Lon: %f\n", userLocation.latitude, userLocation.longitude];
+    [AppHelper logInGreenColor:disStr];
     
     return;
 }
@@ -36,23 +43,17 @@ static CGFloat userBrightnessValue = 0.5;
 }
 
 + (void) updateUserLocation{
-    
-    [self logInColor:@"updating user location..."];
+    [self logInGreenColor:@"updating user location..."];
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {
         // User Denied locaiton
         if (geoPoint == nil)
         {
-            [AppHelper logError:@"no location found"];
             [AppHelper storeLocation:nil];
         }
         else
         {
-            // Test
-            NSString* disStr = [NSString stringWithFormat:@"Parse: got location:\t Lat: %f Lon: %f\nstoring..", geoPoint.latitude, geoPoint.longitude];
-            [AppHelper logInColor:disStr];
             // Save
             [AppHelper storeLocation:geoPoint];
-            [AppHelper logInGreenColor:@"stored location!"];
         }
     }];
 }
@@ -63,6 +64,13 @@ static CGFloat userBrightnessValue = 0.5;
 
 + (CGFloat) getUserBrightness{
     return userBrightnessValue;
+}
+
++ (UIColor*) topBarColor{
+    if (!topBarColor) {
+        topBarColor = [UIColor clearColor];
+    }
+    return topBarColor;
 }
 
 + (UIColor*) customOrange

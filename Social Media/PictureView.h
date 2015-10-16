@@ -13,5 +13,6 @@
 @property (nonatomic,weak) IBOutlet UIVisualEffectView* visualEffectView;
 @property (nonatomic,weak) IBOutlet UITextField*    comment;
 @property (nonatomic,weak) IBOutlet UIButton*       uploadButton;
+@property (nonatomic,weak) IBOutlet UIProgressView* progressView;
 
 @end

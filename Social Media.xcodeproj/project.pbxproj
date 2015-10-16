@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		37269CCE1BB5E37C004B930A /* ContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		3727C7D31BC32B13002E0AD0 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3727C7D21BC32B13002E0AD0 /* TestViewController.m */; settings = {ASSET_TAGS = (); }; };
+		375938D91BBE425C003241CE /* UCZProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 375938D81BBE425C003241CE /* UCZProgressView.m */; settings = {ASSET_TAGS = (); }; };
 		37A817401BBC9EBD00988BD0 /* CaptureOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8173F1BBC9EBD00988BD0 /* CaptureOptionsView.m */; settings = {ASSET_TAGS = (); }; };
 		37A8174D1BBCD8E600988BD0 /* STPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817441BBCD8E600988BD0 /* STPopupController.m */; settings = {ASSET_TAGS = (); }; };
 		37A8174E1BBCD8E600988BD0 /* STPopupLeftBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A817461BBCD8E600988BD0 /* STPopupLeftBarItem.m */; settings = {ASSET_TAGS = (); }; };
@@ -18,6 +20,7 @@
 		37A8175B1BBCE0BC00988BD0 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8175A1BBCE0BC00988BD0 /* PostCell.m */; settings = {ASSET_TAGS = (); }; };
 		37A8175E1BBCE74B00988BD0 /* PopupViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8175D1BBCE74B00988BD0 /* PopupViewController2.m */; settings = {ASSET_TAGS = (); }; };
 		37B910031BB5027400E6B3AB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B910021BB5027400E6B3AB /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		37C5D07D1BCF4402007483DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C5D07C1BCF4402007483DA /* MediaPlayer.framework */; };
 		37C95CE91BB4AE3000DC6B61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CE81BB4AE3000DC6B61 /* main.m */; };
 		37C95CEC1BB4AE3000DC6B61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CEB1BB4AE3000DC6B61 /* AppDelegate.m */; };
 		37C95CEF1BB4AE3000DC6B61 /* CaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C95CEE1BB4AE3000DC6B61 /* CaptureViewController.m */; };
@@ -171,6 +174,10 @@
 /* Begin PBXFileReference section */
 		37269CCC1BB5E37C004B930A /* ContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTableViewCell.h; sourceTree = "<group>"; };
 		37269CCD1BB5E37C004B930A /* ContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTableViewCell.m; sourceTree = "<group>"; };
+		3727C7D11BC32B13002E0AD0 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		3727C7D21BC32B13002E0AD0 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		375938D71BBE425C003241CE /* UCZProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCZProgressView.h; sourceTree = "<group>"; };
+		375938D81BBE425C003241CE /* UCZProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCZProgressView.m; sourceTree = "<group>"; };
 		37A8173E1BBC9EBD00988BD0 /* CaptureOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureOptionsView.h; path = ../CaptureOptionsView.h; sourceTree = "<group>"; };
 		37A8173F1BBC9EBD00988BD0 /* CaptureOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureOptionsView.m; path = ../CaptureOptionsView.m; sourceTree = "<group>"; };
 		37A817421BBCD8E600988BD0 /* STPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPopup.h; sourceTree = "<group>"; };
@@ -192,6 +199,7 @@
 		37A8175D1BBCE74B00988BD0 /* PopupViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController2.m; sourceTree = "<group>"; };
 		37B910011BB5027400E6B3AB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		37B910021BB5027400E6B3AB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		37C5D07C1BCF4402007483DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		37C95CE41BB4AE3000DC6B61 /* Social Media.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Media.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C95CE81BB4AE3000DC6B61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		37C95CEA1BB4AE3000DC6B61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -395,6 +403,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37C5D07D1BCF4402007483DA /* MediaPlayer.framework in Frameworks */,
 				37C95D571BB4D1A800DC6B61 /* AVFoundation.framework in Frameworks */,
 				37C95D2A1BB4CF9700DC6B61 /* libsqlite3.tbd in Frameworks */,
 				37C95D281BB4CF8900DC6B61 /* libz.tbd in Frameworks */,
@@ -419,6 +428,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		375938D61BBE425C003241CE /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				375938D71BBE425C003241CE /* UCZProgressView.h */,
+				375938D81BBE425C003241CE /* UCZProgressView.m */,
+			);
+			name = ProgressView;
+			path = Lib;
+			sourceTree = "<group>";
+		};
 		37A8173B1BBC9E8100988BD0 /* Subclass Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +484,20 @@
 			name = "Custom Alert";
 			sourceTree = "<group>";
 		};
+		37C5D0751BCF43B3007483DA /* API's */ = {
+			isa = PBXGroup;
+			children = (
+				37A817561BBCE08D00988BD0 /* Custom Alert */,
+				37C95D5E1BB4F02600DC6B61 /* FVCustomAlertViewResources */,
+				37E1F3411BBDB33100B70A4F /* Range Slider */,
+				37A817411BBCD8E600988BD0 /* STPopup */,
+				375938D61BBE425C003241CE /* ProgressView */,
+				37E1623B1BB5B16A00D56F16 /* iOSUILib */,
+				37C95D2E1BB4D19800DC6B61 /* CustomizableCamera */,
+			);
+			name = "API's";
+			sourceTree = "<group>";
+		};
 		37C95CDB1BB4AE3000DC6B61 = {
 			isa = PBXGroup;
 			children = (
@@ -492,12 +525,7 @@
 				37C95CF81BB4AE3000DC6B61 /* LaunchScreen.storyboard */,
 				37C95CFB1BB4AE3000DC6B61 /* Info.plist */,
 				37C95D081BB4CEDE00DC6B61 /* Frameworks */,
-				37A817561BBCE08D00988BD0 /* Custom Alert */,
-				37C95D5E1BB4F02600DC6B61 /* FVCustomAlertViewResources */,
-				37E1F3411BBDB33100B70A4F /* Range Slider */,
-				37A817411BBCD8E600988BD0 /* STPopup */,
-				37E1623B1BB5B16A00D56F16 /* iOSUILib */,
-				37C95D2E1BB4D19800DC6B61 /* CustomizableCamera */,
+				37C5D0751BCF43B3007483DA /* API's */,
 				37C95CE71BB4AE3000DC6B61 /* Supporting Files */,
 			);
 			path = "Social Media";
@@ -516,6 +544,8 @@
 		37C95D041BB4CA0900DC6B61 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3727C7D11BC32B13002E0AD0 /* TestViewController.h */,
+				3727C7D21BC32B13002E0AD0 /* TestViewController.m */,
 				37A8173B1BBC9E8100988BD0 /* Subclass Components */,
 				37B910011BB5027400E6B3AB /* LoginViewController.h */,
 				37B910021BB5027400E6B3AB /* LoginViewController.m */,
@@ -534,6 +564,7 @@
 		37C95D081BB4CEDE00DC6B61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37C5D07C1BCF4402007483DA /* MediaPlayer.framework */,
 				37C95D561BB4D1A800DC6B61 /* AVFoundation.framework */,
 				37C95D291BB4CF9700DC6B61 /* libsqlite3.tbd */,
 				37C95D271BB4CF8900DC6B61 /* libz.tbd */,
@@ -1016,6 +1047,7 @@
 				37A8174E1BBCD8E600988BD0 /* STPopupLeftBarItem.m in Sources */,
 				37E1629B1BB5B16A00D56F16 /* AutoResizeTextView.m in Sources */,
 				37E162AF1BB5B16A00D56F16 /* MDProgress.m in Sources */,
+				3727C7D31BC32B13002E0AD0 /* TestViewController.m in Sources */,
 				37E162B61BB5B16A00D56F16 /* MDTableViewCell.m in Sources */,
 				37B910031BB5027400E6B3AB /* LoginViewController.m in Sources */,
 				37E162A81BB5B16A00D56F16 /* MDMathHelper.m in Sources */,
@@ -1039,6 +1071,7 @@
 				37C95CE91BB4AE3000DC6B61 /* main.m in Sources */,
 				37E162BF1BB5B16A00D56F16 /* MDSliderThumbView.m in Sources */,
 				37E1629D1BB5B16A00D56F16 /* MDCalendarCell.m in Sources */,
+				375938D91BBE425C003241CE /* UCZProgressView.m in Sources */,
 				37C95D071BB4CA4300DC6B61 /* TabBarViewController.m in Sources */,
 				37E162BA1BB5B16A00D56F16 /* MDCircularProgressLayer.m in Sources */,
 				37E1629C1BB5B16A00D56F16 /* MDCalendar.m in Sources */,
